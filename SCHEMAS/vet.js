@@ -1,24 +1,24 @@
 const z = require('zod')
 
-const reservationSchema = z.object({
+const vetSchema = z.object({
+    id: z.number({
+        invalid_type_error: 'Vet Id must be a Number',
+        required_error: 'Vet Id is required'
+    }).int(),
     name: z.string({
-        invalid_type_error: 'Reservation name must be a String',
-        required_error: 'Reservation name is required'
+        invalid_type_error: 'Vet Name must be a String',
+        required_error: 'Vet Name is required'
     }),
-    id: z.string({
-        invalid_type_error: 'Reservation id must be a String',
-        required_error: 'Reservation id is required'
-    }),
-    time: z.number({
-        invalid_type_error: 'Reservation time must be a Number',
-        required_error: 'Reservation time is required'
-    }).int().min(7).max(18),
+    last: z.string({
+        invalid_type_error: 'Vet Last Name must be a String',
+        required_error: 'Vet Last Name is required'
+    })
 })
 
-function validateReservation(obj) {
-    return reservationSchema.safeParse(obj); // safeParse vs parse
+function validateVet(obj) {
+    return vetSchema.safeParse(obj); // safeParse vs parse
 }
 
 module.exports = {
-    validateReservation
+    validateVet
 }
