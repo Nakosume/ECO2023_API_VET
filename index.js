@@ -53,7 +53,27 @@ app.get('/vets',(req,res)=>{
 app.get('/pets',(req,res)=>{
     res.send({"pets":pets})
 })
+
 //users//
 app.get('/users',(req,res)=>{
     res.send({"users":users})
+})
+
+app.post('/users', (req, res) => {
+    const userValidationResult = validateUser(req.body)
+    console.log("result", userValidationResult.error)
+
+    if(userValidationResult.error){
+        return res.status(400).send(
+            {message:JSON.parse(userValidationResult.error.message)}
+        )
+    }
+
+    let newUser = {
+        name:userValidationResult.data.name,
+        last:userValidationResult.data.last,
+        id:userValidationResult.data.id,
+    }
+    users.push(newUser)
+    res.status(201).send({"message":"New GI in the jungle!", "user":newUser})
 })
