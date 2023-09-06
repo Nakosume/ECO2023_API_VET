@@ -35,11 +35,25 @@ users.push({
 })
 
 
-
+////////////////////////////////////////////////
 app.listen(port,()=>{
     console.log(`Running on port ${port}`)
 })
 
 app.get('/',(req,res)=>{
     res.send('API IS RUNNING')
+})
+////////////////////////////////////////////////
+//vets//
+app.get('/vets',(req,res)=>{
+    res.send({"vets":vets})
+})
+
+//pets//
+app.get('/pets',(req,res)=>{
+    res.send({"pets":pets})
+})
+//users//
+app.get('/users',(req,res)=>{
+    res.send({"users":users})
 })
