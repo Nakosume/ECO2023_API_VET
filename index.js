@@ -78,15 +78,17 @@ app.post('/vets', (req, res) => {
 app.patch('/vets/:id', (req, res)=>{
     let index = vets.findIndex(vet => vet.id == req.params.id)
 
+    for(let i=0;i<pets.length;i++){
+        //pets[i].vetId=req.body.id||pets[i].vetId
+        if(pets[i].vetId==vets[index].id){
+            pets[i].vetId=req.body.id||pets[i].vetId
+        }
+    }
+
     vets[index].name = req.body.name || vets[index].name
     vets[index].last = req.body.last || vets[index].last
     vets[index].id = req.body.id || vets[index].id
     
-    for(let i=0;i<pets.length;i++){
-        pets[i].vetId=req.body.id||pets[i].vetId
-    }
-
-
     res.send("veterinario modificado ")
 })
 
