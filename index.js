@@ -73,6 +73,19 @@ app.post('/vets', (req, res) => {
     res.status(201).send({"message":"New Vet in the jungle!", "user":newVet})
 })
 
+app.patch('/vets/:id', (req, res)=>{
+    let index = vets.findIndex(vet => vet.id == req.params.id)
+    //let petVetIndex = pets.findIndex(pet => pet.vetId == req.params.id)
+
+    vets[index].name = req.body.name || vets[index].name
+    vets[index].last = req.body.last || vets[index].last
+    vets[index].id = req.body.id || vets[index].id
+    //pets[petVetIndex].vetId=req.body.id || pets[petVetIndex].vetId
+
+
+    res.send("veterinario modificado ")
+})
+
 //pets//
 app.get('/pets',(req,res)=>{
     res.send({"pets":pets})
