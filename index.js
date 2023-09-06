@@ -73,14 +73,18 @@ app.post('/vets', (req, res) => {
     res.status(201).send({"message":"New Vet in the jungle!", "user":newVet})
 })
 
+//patch de veterinario. si e veterinario cambia de id, este tambien cambia el vetID de los pacientes del dichoso
+
 app.patch('/vets/:id', (req, res)=>{
     let index = vets.findIndex(vet => vet.id == req.params.id)
-    //let petVetIndex = pets.findIndex(pet => pet.vetId == req.params.id)
 
     vets[index].name = req.body.name || vets[index].name
     vets[index].last = req.body.last || vets[index].last
     vets[index].id = req.body.id || vets[index].id
-    //pets[petVetIndex].vetId=req.body.id || pets[petVetIndex].vetId
+    
+    for(let i=0;i<pets.length;i++){
+        pets[i].vetId=req.body.id||pets[i].vetId
+    }
 
 
     res.send("veterinario modificado ")
@@ -105,7 +109,7 @@ app.post('/pets', (req, res) => {
         name:petValidationResult.data.name,
         age:petValidationResult.data.age,
         id:petValidationResult.data.id,
-        type:petValidationResult.data.age,
+        type:petValidationResult.data.type,
         vetId:petValidationResult.data.vetId,
         userId:petValidationResult.data.userId,
     }
