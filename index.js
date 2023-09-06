@@ -13,6 +13,27 @@ let vets = []
 let users = []
 let pets = []
 
+vets.push({
+    id: 1006106410,
+    name:"Jhon",
+    last:"Doe",
+})
+
+pets.push({
+    id:1006106140,
+    name:"pipi",
+    age: 2,
+    tipo:"gato",
+    vetID:1006106410,
+    userID:1234567890
+})
+
+users.push({
+    id:1234567890,
+    name:"Mr",
+    last:"beast",
+})
+
 
 
 app.listen(port,()=>{
