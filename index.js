@@ -142,3 +142,20 @@ app.post('/users', (req, res) => {
     users.push(newUser)
     res.status(201).send({ "message": "New User in the jungle!", "user": newUser })
 })
+
+app.patch('/users/:id', (req, res) => {
+    let index = users.findIndex(user => user.id == req.params.id)
+
+    for (let i = 0; i < pets.length; i++) {
+        //pets[i].vetId=req.body.id||pets[i].vetId
+        if (pets[i].userId == users[index].id) {
+            pets[i].userId = req.body.id || pets[i].vetId
+        }
+    }
+
+    users[index].name = req.body.name || users[index].name
+    users[index].last = req.body.last || users[index].last
+    users[index].id = req.body.id || users[index].id
+
+    res.send("usuario modificado ")
+})
