@@ -33,6 +33,15 @@ pets.push({
     userId: 1234567890
 })
 
+pets.push({
+    id: 1006106141,
+    name: "engel",
+    age: 4,
+    type: "gato",
+    vetId: 1006106410,
+    userId: 1234567890
+})
+
 users.push({
     id: 1234567890,
     name: "Mr",
@@ -52,6 +61,28 @@ app.get('/', (req, res) => {
 //vets//
 app.get('/vets', (req, res) => {
     res.send({ "vets": vets })
+})
+
+app.get('/vets/:id', (req, res) => {
+    const idToGet = req.params.id;
+    let indexToGet = vets.findIndex(vet=>vet.id==idToGet)
+    let vetGet = vets[indexToGet]
+
+    let petList = []
+    for (let i = 0; i < pets.length; i++) {
+        if (pets[i].vetId == idToGet) {
+            petList.push(pets[i])
+        }
+    } 
+
+    let fullVet = {
+        id: vetGet.id,
+        name: vetGet.name,
+        last: vetGet.last,
+        petList: petList
+    }
+
+    res.send({ "vets": fullVet })
 })
 
 app.post('/vets', (req, res) => {
@@ -92,6 +123,14 @@ app.patch('/vets/:id', (req, res) => {
     res.send("veterinario modificado ")
 })
 
+app.delete('/vets/:id', (req, res)=>{
+    const idToDelete = req.params.id;
+    let indexToDelete = vets.findIndex(vet=>vet.id==idToDelete)
+    let vetDeleted = vets.splice(indexToDelete, 1)
+    res.send("Vet Deleted: " + vetDeleted[0].id)
+})
+
+/////////////////////////////////////////////////////////////////////////////////////
 //pets//
 app.get('/pets', (req, res) => {
     res.send({ "pets": pets })
@@ -119,10 +158,41 @@ app.post('/pets', (req, res) => {
     res.status(201).send({ "message": "New pet in the jungle!", "user": newPet })
 })
 
+app.delete('/pets/:id', (req, res)=>{
+    const idToDelete = req.params.id;
+    let indexToDelete = pets.findIndex(pet=>pet.id==idToDelete)
+    let userDeleted = pets.splice(indexToDelete, 1)
+    res.send("Pet Deleted: " + userDeleted[0].id)
+})
+
+///////////////////////////////////////////////////////////////////////////////////////
 //users//
 app.get('/users', (req, res) => {
     res.send({ "users": users })
 })
+
+app.get('/users/:id', (req, res) => {
+    const idToGet = req.params.id;
+    let indexToGet = users.findIndex(user=>user.id==idToGet)
+    let userGet = users[indexToGet]
+
+    let petList = []
+    for (let i = 0; i < pets.length; i++) {
+        if (pets[i].userId == idToGet) {
+            petList.push(pets[i])
+        }
+    } 
+
+    let fullUser = {
+        id: userGet.id,
+        name: userGet.name,
+        last: userGet.last,
+        petList: petList
+    }
+
+    res.send({ "users": fullUser })
+})
+
 
 app.post('/users', (req, res) => {
     const userValidationResult = validateUser(req.body)
@@ -158,4 +228,11 @@ app.patch('/users/:id', (req, res) => {
     users[index].id = req.body.id || users[index].id
 
     res.send("usuario modificado ")
+})
+
+app.delete('/users/:id', (req, res)=>{
+    const idToDelete = req.params.id;
+    let indexToDelete = users.findIndex(user=>user.id==idToDelete)
+    let userDeleted = users.splice(indexToDelete, 1)
+    res.send("User Deleted: " + userDeleted[0].id)
 })
